@@ -24,4 +24,3 @@ class CheckForm(forms.Form):
             return question_id
         else:
             raise forms.ValidationError("This is not a valid id")
-        
