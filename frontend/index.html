@@ -12,43 +12,45 @@
     <div class="timer">
       
     </div>
-    <div class="content isr">
+    <div class="content isr glow">
       <div class="flex-col">
         <span class="prob">Problem</span>
         <div class="options">
-          <div class="opt opt-1">Choice 1</div>
-          <div class="opt opt-2">Choice 2</div>
-          <div class="opt opt-3">Choice 3</div>
-          <div class="opt opt-4">Choice 4</div>
+          <div class="opt opt-1" value="1">Choice 1</div>
+          <div class="opt opt-2" value="2">Choice 2</div>
+          <div class="opt opt-3" value="3">Choice 3</div>
+          <div class="opt opt-4" value="4">Choice 4</div>
         </div>
       </div>
     </div>
-    <div class="ntr">
+    <div class="ntr glow">
       <div class="flex-col">
-        <span class="pn">↓ Paste your notes down here ↓</span>
-        <button class="go">Let's GO!</button>
-        <div class="flex-row">
-          <div>
-            <textarea class="pn-inp"></textarea>
-            <span class="char-limit"></span>
-          </div>
-          <div class="markdown-output">
-
-          </div>
+        <span class="pn">Paste your notes here:</span>
+        <div class="ahhhhhhhhhhh-whuhakshdfuiahsuifhuiasdefhiklsdhfjklsdhfkljsdahfjklsdhfjklsdhafjkladhjklfashjklfhjkfhasfhlfklahfkhjsdfasdd-i-like-chicken-nuggets-asjkdhfklasdhiflhasuiohfilsahdfjklsdhklfhasdklfhaweuiohrcioasmyfuioaymiogudiolilughuifgiuadfhgiasdfhguildfhsuilghaiduhgilasuhilfguasdhuilfasdhuilfshuilfasdhuilfhasdilufhsuilafhsuiladhf-huh-asildhflasdifuhsdauiklfhaskfhlksdahkflasdhuifhskladfhilas-i-like-planes-kasjdhfklashildfhuklasdfhklsdhfjklasdfhklashfjkhasklfhaskfhasjkfhsjkdfhjklasdfhjkasdfhklasdhfkljasd-i-like-trains-asikldhjfasdylfkdhasilfhsduklahfklashfdklashjkfashkldfhasdjklfhuklasdhfjkasdhklfhjkladshjklasdhfklsdahfjklas-yay-ajksdhfklasdhklfasdhjkflhasdkfhkjlszhdklfjashjkl">
+          <textarea class="pn-inp"></textarea>
+          <span class="char-limit"></span>
         </div>
+        <button class="go">Let's GO!</button>
       </div>
     </div>
   </div>
   <script>
     const genRandomToken = () => {
-      const TOKEN_BASE_LEN = 40;
+      const TOKEN_BASE_LEN = 5;
 
       let token = "";
-      const validChars = "134567890qwertyuiopasdfghjklzxcvbnm-_.~";
+      const validChars = "134567890QWERTYUIOPADFGHJKLZXCVBNM";
       for (let i=0;i<TOKEN_BASE_LEN;i++) {
         token += validChars.charAt(Math.random() * validChars.length);
       }
-      return "__T" + token + Date.now().toString();
+      return token + Date.now().toString().substring(7, 10);
+    };
+
+    const loadQuestion = (question) => {
+      $(".prob").html(question.text);
+      for(let i=0;i<4;i++) {
+        $(`.opt-${i+1}`).html(question.choices[i]);
+      }
     };
 
     const runRun = (url, token, questions) => {
@@ -57,21 +59,44 @@
       $(".ntr").css("display", "none");
       $(".isr").css("display", "block");
 
+      let solved = false;
+      
       let timeInitialMS = 20000;
       let timeLeftMS = timeInitialMS;
+      const penaltyTimeMS = 1000;
+
       const intervalUpdateMS = 50;
       const interval = setInterval(() => {
         $(".timer:after").css("right", timeLeftMS / timeInitialMS);
         timeLeftMS -= intervalUpdateMS;
         if (timeLeftMS <= 0) {
           clearInterval(interval);
-          const url = new URL(window.location);
-          url.searchParams.delete("token");
-          runNone();
+          if (!solved) {
+            const url = new URL(window.location);
+            url.searchParams.delete("token");
+            runNone();
+          }
         }
       }, intervalUpdateMS);
 
-      
+      let q=0;
+      $(".opt").on("click", (e) => {
+        const choice = parseInt($(e.target).attr("value"));
+        post("/api/check", {q: questions[q].id, a: choice, token: token}).then((correct) => {
+          if (correct) {
+            console.log("correct");
+            if (++q==questions.length) {
+              solved = true;
+              runNone();
+            } else {
+              loadQuestion(q);
+            }
+          } else {
+            loadQuestion(q+1);
+            timeLeftMS-=penaltyTimeMS;
+          }
+        })
+      });
     };
 
     const CHAR_LIMIT = 15000;
@@ -89,12 +114,13 @@
         headers: {
           "Content-Type": "application/json", 
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       });
     };
 
     const runNone = () => {
-      history.pushState({ running: false }, "", "/");
+      // TODO: uncomment below line
+      //history.pushState({ running: false }, "", "/");
       $(".ntr").css("display", "block");
       $(".isr").css("display", "none");
       let clicked = false;
@@ -105,15 +131,19 @@
           const url = new URL(window.location);
           const token = genRandomToken();
           url.searchParams.set("token", token);
-          const questions = post("/api/get_questions", {
+          post("/api/get_questions", {
             token: token,
             notes: $(".pn-inp").val(),
+          }).then((questions) => {
+            runRun(url, token, questions);
           });
-          runRun(url, token, questions);
         }
       });
       $(".pn-inp").on("input", () => {
         updCharLimit();
+        const len = $(".pn-inp").val().length;
+        if (!clicked && len && len <= CHAR_LIMIT) $(".go").addClass("avail");
+        else $(".go").removeClass("avail");
       });
     };
 
