@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <title>TutorGPT</title>
+</head>
+<body>
+  <div class="flex-col">
+    <div class="timer">
+      
+    </div>
+    <div class="content isr">
+      <div class="flex-col">
+        <span class="prob">Problem</span>
+        <div class="options">
+          <div class="opt opt-1">Choice 1</div>
+          <div class="opt opt-2">Choice 2</div>
+          <div class="opt opt-3">Choice 3</div>
+          <div class="opt opt-4">Choice 4</div>
+        </div>
+      </div>
+    </div>
+    <div class="ntr">
+      <div class="flex-col">
+        <span class="pn">↓ Paste your notes down here ↓</span>
+        <button class="go">Let's GO!</button>
+        <div class="flex-row">
+          <div>
+            <textarea class="pn-inp"></textarea>
+            <span class="char-limit"></span>
+          </div>
+          <div class="markdown-output">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const genRandomToken = () => {
+      const TOKEN_BASE_LEN = 40;
+
+      let token = "";
+      const validChars = "134567890qwertyuiopasdfghjklzxcvbnm-_.~";
+      for (let i=0;i<TOKEN_BASE_LEN;i++) {
+        token += validChars.charAt(Math.random() * validChars.length);
+      }
+      return "__T" + token + Date.now().toString();
+    };
+
+    const runRun = (url, token, questions) => {
+      history.pushState({ running: true }, '', url);
+
+      $(".ntr").css("display", "none");
+      $(".isr").css("display", "block");
+
+      let timeInitialMS = 20000;
+      let timeLeftMS = timeInitialMS;
+      const intervalUpdateMS = 50;
+      const interval = setInterval(() => {
+        $(".timer:after").css("right", timeLeftMS / timeInitialMS);
+        timeLeftMS -= intervalUpdateMS;
+        if (timeLeftMS <= 0) {
+          clearInterval(interval);
+          const url = new URL(window.location);
+          url.searchParams.delete("token");
+          runNone();
+        }
+      }, intervalUpdateMS);
+
+      
+    };
+
+    const CHAR_LIMIT = 15000;
+    const updCharLimit = () => {
+      const len = $(".pn-inp").val().length;
+      $(".char-limit").html(`${len}/${CHAR_LIMIT}`).css("color", len <= CHAR_LIMIT ? "inherit" : "var(--c_err)");
+    };
+
+    const post = async (url, data) => {
+      return await fetch(url, {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json", 
+        },
+        body: JSON.stringify(data)
+      });
+    };
+
+    const runNone = () => {
+      history.pushState({ running: false }, "", "/");
+      $(".ntr").css("display", "block");
+      $(".isr").css("display", "none");
+      let clicked = false;
+      $(".go").on("click", () => {
+        const len = $(".pn-inp").val().length;
+        if (!clicked && len && len <= CHAR_LIMIT) {
+          clicked = true;
+          const url = new URL(window.location);
+          const token = genRandomToken();
+          url.searchParams.set("token", token);
+          const questions = post("/api/get_questions", {
+            token: token,
+            notes: $(".pn-inp").val(),
+          });
+          runRun(url, token, questions);
+        }
+      });
+      $(".pn-inp").on("input", () => {
+        updCharLimit();
+      });
+    };
+
+    $(() => {
+      $(window).on("popstate", (e) => {
+        console.log(e.state);
+        const url = new URL(window.location);
+        const token = url.searchParams.get("token");
+        if (e.state.running && token) {
+          runRun(url, token, );
+        } else {
+          runNone();
+        }
+      });
+      updCharLimit();
+      runNone();
+    });
+  </script>
+</body>
+</html>
