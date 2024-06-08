@@ -11,4 +11,4 @@ completion = client.chat.completions.create(
     {"role": "system", "content": "You are a helpful assistant that generates 20 multiple choice questions based on a users' notes. Format must be a list that can be formatted in python, with tuples  "},
     {"role": "user", "content": "Hello! Could you solve 20 x 5?"}
   ]
-                                            )
+   )
