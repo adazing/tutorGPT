@@ -1,0 +1,12 @@
+{% extends 'main.html' %}
+
+    {% block bodycontent %}
+        <div>
+            <p class="h4">blah blah</p>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form}}
+                <input type="submit" value="Save" class="btn btn-primary">
+            </form>
+        </div>
+    {% endblock %}

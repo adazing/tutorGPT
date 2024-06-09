@@ -1,0 +1,11 @@
+take in images/pdfs?
+accounts?
+input how many questions in one batch?
+where gpt can explain concepts one at a time like a story/conversation...
+analysis - if you get a question wrong once, do you show it again multiple times?
+remove question from a batch
+add question to a batch
+explain answers?
+not just multiple choice
+    fill in the blank? short answer? specify how much of each type of question?
+timer, rewards, reactions when they get something right
