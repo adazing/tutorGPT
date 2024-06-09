@@ -39,7 +39,7 @@ Inferfaces used:
 To host Tutor.GPT, run the following commands:
 ```
 python -m venv env
-env/Scripts/Activate
+env/Scripts/activate
 cd tutorGPT
 python manage.py runserver
 ```
