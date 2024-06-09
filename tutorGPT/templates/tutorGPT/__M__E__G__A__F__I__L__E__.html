@@ -480,7 +480,8 @@
           dots+=".";
         }
         $(".loading").html(`Loading${dots}`);
-        ( dotCount++ ) %= 4;
+        dotCount++;
+        dotCount %= 4;
       }, 666);
 
       post(`/api/get_questions/`, {
