@@ -50,4 +50,9 @@ cd tutorGPT/tutorGPT
 python3 manage.py runserver
 ```
 
+MacOS:
+```
+delete computer
+```
+
 ```git``` and ```python``` must be pre-installed.
