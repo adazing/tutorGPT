@@ -50,10 +50,10 @@ python manage.py runserver
 Linux:
 ```
 git clone https://github.com/adazing/tutorGPT.git
-python -m venv env
+python3 -m venv env
 source env/bin/activate
 cd tutorGPT/tutorGPT
-python manage.py runserver
+python3 manage.py runserver
 ```
 
 ```git``` and ```python``` must be pre-installed.
