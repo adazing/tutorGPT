@@ -4,11 +4,11 @@
 
 <img src="https://raw.githubusercontent.com/adazing/tutorGPT/main/tutorGPT/project/static/tutorGPT/logo-unlabeled-untransparent.png" height="256px" />
 
-# Tutor.GPT
+# TutorGPT
 
 [![License](https://img.shields.io/packagist/l/adazing/tutorGPTy)](https://packagist.org/packages/adazing/tutorGPT)
 
-Tutor.GPT is a AI-powered study tool that converts your class notes into multiple-choice practice questions.
+TutorGPT is a AI-powered study tool that converts your class notes into multiple-choice practice questions.
 
 </div>
 
@@ -36,7 +36,7 @@ Inferfaces used:
 #
 
 
-To host Tutor.GPT, run the following commands...
+To host TutorGPT, run the following commands...
 
 Windows:
 ```
