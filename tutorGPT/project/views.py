@@ -43,7 +43,8 @@ def get_questions(request):
             # ask chatgpt to generate questions here
             # return render(request, "project/example.html", {'form': form})
             # bundle = get_object_or_404(Bundle, pk=pk)
-            question1 = MultipleChoiceQuestion.objects.create(bundle=bundle, question="""this is a question <img src="http://www.nyan.cat/images/Collection11-20.gif"></img>!!!!!""", option1="""<img src="https://www.nyan.cat/cats/original.gif"></img>""", option2="""<img src="https://www.nyan.cat/images/thumbs/jacksnyan.gif"></img>""", option3="""<img src="https://www.nyan.cat/images/thumbs/pirate.gif"></img>""", option4="""<img src="https://www.nyan.cat/images/thumbs/pikanyan.gif"></img>""", answer=2)
+            question1 = MultipleChoiceQuestion.objects.create(bundle=bundle, question="""this is a question <img src="http://www.nyan.cat/images/Collection11-20.gif"></img>!!!!!""", option1="""<img src="https://www.nyan.cat/cats/original.gif"></img>""", option2="""<img src="https://www.nyan.cat/images/thumbs/jacksnyan.gif"></img>""", option3="""<img src="https://www.nyan.cat/images/thumbs/pirate.gif"></img>""", option4="""hi""", answer=2)
+            question2 = MultipleChoiceQuestion.objects.create(bundle=bundle, question="""this is a second question !!!!!""", option1="""123123123123""", option2="""no""", option3="""asfvasdf""", option4="""ssssss""", answer=3)
             questions = MultipleChoiceQuestion.objects.filter(bundle=bundle)
             for x in range(len(questions)):
                 data.append({"id": str(questions[x].id), "text":questions[x].question, "choices":[questions[x].option1, questions[x].option2, questions[x].option3, questions[x].option4]})
@@ -57,10 +58,12 @@ def get_questions(request):
 def check_answer(request):
     form = CheckForm(request.POST or None)
     if request.method == "POST":
+        print("check_answer_recieves:", form)
         if form.is_valid():
-            question = MultipleChoiceQuestion.objects.get(form.cleaned_data["q"])
+            question = MultipleChoiceQuestion.objects.get(id=form.cleaned_data["q"])
+            print(question.answer, form.cleaned_data["a"])
             if question.answer == form.cleaned_data["a"]:
                 return JsonResponse({"response":True}, safe=True)
             else:
                 return JsonResponse({"response":False}, safe=True)
-    JsonResponse({"response":404}, safe=True)
+    return JsonResponse({"response":404}, safe=True)

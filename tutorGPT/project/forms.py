@@ -18,7 +18,7 @@ class UploadNotes(forms.Form):
 
 class CheckForm(forms.Form):
     q = forms.IntegerField(required=True, widget=forms.HiddenInput())
-    # a = forms.CharField(required=True, choices = (("A", "A"), ("B", "B"), ("C", "C"), ("D", "D")))
+    a = forms.IntegerField(required=True)
     def clean_q(self):
         question_id = self.cleaned_data['q']
         if MultipleChoiceQuestion.objects.filter(id=question_id).exists():
