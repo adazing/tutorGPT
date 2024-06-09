@@ -38,11 +38,20 @@ Inferfaces used:
 
 To host Tutor.GPT, run the following commands...
 
-WINDOWS:
+Windows:
 ```
 git clone https://github.com/adazing/tutorGPT.git
 python -m venv env
 env/Scripts/activate
+cd tutorGPT/tutorGPT
+python manage.py runserver
+```
+
+Linux:
+```
+git clone https://github.com/adazing/tutorGPT.git
+python -m venv env
+source env/bin/activate
 cd tutorGPT/tutorGPT
 python manage.py runserver
 ```
