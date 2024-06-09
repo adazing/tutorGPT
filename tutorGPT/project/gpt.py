@@ -13,7 +13,7 @@ def get_questions_from_notes(notes):
             {"role":"assistant","content":"Desired output format:\nQuestion|question_text|1|option_text|2|option_text|3|option_text|4|option_text|Answer|correct_option_number"},
             {"role":"assistant", "content":"Do not output question numbers or anything other than the desired output. Also make sure that none of the individual promts have | so as to not confuse things. The only separation between different questions should be '\\n'. This is important for processing, must be like a csv file. You may search the internet for questions related to the notes. Use the internet to fact-check your generated questions, and ensure that the questions you generate have accurate answers."},
             {"role":"assistant", 'content':'If you are given thermochemistry notes, an example output containing two questions is: \n"Question|Which unit is equivalent to the energy needed to raise the temperature of 1.00 gram of water by 1.00o C?|1|Calorie|2|Joule|3|Kilowatt-hour|4|British Thermal Unit|Answer|1\nQuestion|Which kind of reaction involves the release of heat to the surroundings?|1|Endothermic|2|Isoschist|3|Exothermic|4|Isothermal|Answer|3"'},
-            {"role":"assistant","content":"Given these notes, please generate 2 questions in the desired output format: "+notes}
+            {"role":"assistant","content":"Given these notes, please generate 20 questions in the desired output format: "+notes}
 
         ]
     )
