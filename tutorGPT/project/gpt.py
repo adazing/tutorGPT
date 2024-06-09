@@ -1,7 +1,7 @@
 from openai import OpenAI
 # import keys
 import os
-client = OpenAI(api_key=os.environ["gpt_key"])
+client = OpenAI(api_key=os.getenv("gpt_key"))
 
 MODEL = "gpt-3.5-turbo"
 
