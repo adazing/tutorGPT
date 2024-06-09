@@ -36,7 +36,9 @@ Inferfaces used:
 #
 
 
-To host Tutor.GPT, run the following commands:
+To host Tutor.GPT, run the following commands...
+
+WINDOWS:
 ```
 git clone https://github.com/adazing/tutorGPT.git
 python -m venv env
