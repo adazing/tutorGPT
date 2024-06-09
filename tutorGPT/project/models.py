@@ -11,13 +11,13 @@ def generate_unique_id():
             return unique_id
 
 class Bundle(models.Model):
-    id = models.CharField(max_length=8, primary_key=True, default=generate_unique_id, editable=False)
+    # id = models.CharField(max_length=8, primary_key=True, default=generate_unique_id, editable=False)
     notes = models.TextField(max_length=15000)
 
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.id = generate_unique_id()
-        super(Bundle, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if not self.id:
+    #         self.id = generate_unique_id()
+    #     super(Bundle, self).save(*args, **kwargs)
 
 class MultipleChoiceQuestion(models.Model):
     bundle = models.ForeignKey(Bundle, on_delete=models.CASCADE)
@@ -26,6 +26,6 @@ class MultipleChoiceQuestion(models.Model):
     option2 = models.TextField(max_length=1000)
     option3 = models.TextField(max_length=1000)
     option4 = models.TextField(max_length=1000)
-    answer = models.CharField(max_length=1, choices = (("A", "A"), ("B", "B"), ("C", "C"), ("D", "D")), default="A")
+    answer = models.IntegerField(choices = ((1, 1), (2, 2), (3, 3), (4, 4)), default=1)
     # index = models.IntegerField()
 
