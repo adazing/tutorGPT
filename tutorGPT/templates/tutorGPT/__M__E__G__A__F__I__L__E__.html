@@ -324,21 +324,35 @@
       0% {
         opacity: 0;
       }
-      25% {
+      20% {
         opacity: 1;
       }
-      50% {
+      60% {
         opacity: 1;
       }
-      75% {
+      80% {
         opacity: 0;
       }
       100% {
         opacity: 0;
       }
     }
+    .loading.active {
+      animation: loading 4000ms infinite;
+    }
     .loading {
-      animation: loading 1998ms;
+      margin-top: 1rem;
+      opacity: 0;
+      user-select: none;
+    }
+    .note-incans {
+      position: fixed;
+      bottom: 1rem;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: var(--fs-nt);
+      color: gray;
     }
   </style>
 </head>
@@ -369,7 +383,8 @@
           <input class="time-inp" placeholder="Time (seconds)" type="number" />
         </div>
         <button class="go">Let's GO!</button>
-        <div class="loading"></div>
+        <div class="loading">Loading...</div>
+        <div class="note-incans">Tutor.GPT may occasionally produce incorrect answers. Ensure accuracy by fact-checking important information and providing 2000+ characters of thorough notes.</div>
       </div>
     </div>
   </div>
@@ -426,7 +441,7 @@
       console.log("loading question", cnt, "[0-indexed]");
       question = questions[cnt];
       console.log(question);
-      randomCharTransition(".prob", `Problem ${cnt+1}/20: ${mkdwnToHTML(question.text)}`);
+      randomCharTransition(".prob", `Problem ${cnt+1}/${questions.length}: ${mkdwnToHTML(question.text)}`);
       $(".prob").html();
       for(let i=0;i<4;i++) {
         randomCharTransition(`.opt-${i+1} > .ch-txt`, mkdwnToHTML(question.choices[i]));
@@ -452,6 +467,9 @@
     };
 
     const endRun = (audio, wasWin) => {
+      setTimeout(() => {
+        (new Audio(wasWin ? "{% static 'tutorGPT/victory.mp3'%}" : "{% static 'tutorGPT/loss.mp3'%}")).play()
+      }, wasWin ? 0 : 800);
       unbindAll();
       audio.pause();
       const url = new URL(window.location);
@@ -464,7 +482,7 @@
         $(".reset").on("click", () => {
           runNone();
         });
-      }, TRANS_BRK_MS);
+      }, TRANS_BRK_MS + (wasWin ? 888 : 0));
     };
 
     const runRun = (url, token, notes, time) => {
