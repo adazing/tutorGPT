@@ -204,70 +204,13 @@ textarea:focus {
   transition: mask 1s, opacity 1s;
 }
 
-@keyframes ms-open {
-  from {
-    --_mmp: -100% 0;
-    opacity: 100%;
-  }
-  to {
-    --_mmp: 100% 0;
-    opacity: 100%;
-  }
-}
-@keyframes ms-close {
-  from {
-    --_mmp: -100% 0;
-    opacity: 100%;
-  }
-  to {
-    --_mmp: 100% 0;
-    opacity: 100%;
-  }
-}
-@keyframes op-open {
-  from {
-    --_mmp: 100% 0;
-    opacity: 0%;
-  }
-  to {
-    --_mmp: 100% 0;
-    opacity: 100%;
-  }
-}
-@keyframes op-close {
-  from {
-    --_mmp: 100% 0;
-    opacity: 100%;
-  }
-  to {
-    --_mmp: 100% 0;
-    opacity: 0%;
-  }
-}
-
 .ms-open {
   --_mmp: 100% 0;
-  opacity: 100%;
   z-index: 2;
-  animation: ms-open 1s ease-in-out;
 }
 .ms-close {
   --_mmp: -100% 0;
-  opacity: 100%;
   z-index: -1;
-  animation: ms-close 1s ease-in-out;
-}
-.op-open {
-  --_mmp: 100% 0;
-  opacity: 100%;
-  z-index: 2;
-  animation: op-open 1s ease-in-out;
-}
-.op-close {
-  --_mmp: 100% 0;
-  opacity: 0%;
-  z-index: -1;
-  animation: op-close 1s ease-in-out;
 }
 
 input {

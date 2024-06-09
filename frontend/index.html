@@ -71,19 +71,15 @@
 
     const TRANS_BRK_MS = 1000;
 
-    const updTrans = (elementQuery, trans) => {
-      $(elementQuery).removeClass("op-open").removeClass("op-close").removeClass("ms-open").removeClass("ms-close").addClass(trans);
-    }
-
     const endRun = (audio, wasWin) => {
       audio.pause();
       const url = new URL(window.location);
       url.searchParams.delete("token");
-      updTrans(".cont-isr", "op-close");
-      $(".cont-ntr").css("opacity", "0");
+      $(".cont-isr").addClass("ms-close").removeClass("ms-open");
+      $(".cont-ntr").addClass("ms-close").removeClass("ms-open");
       $(".ww").html(wasWin ? "You Won! 🎉" : "Try Again... You Got This! 😤")
       setTimeout(() => {
-        updTrans(".cont-gg", "op-open");
+        $(".cont-gg").removeClass("ms-close").addClass("ms-open");
         $(".reset").on("click", () => {
           runNone();
         });
@@ -98,10 +94,10 @@
         notes: notes,
       }).then((questions) => {
         $(() => {
-          updTrans(".cont-ntr", "ms-close");
-          $(".cont-gg").css("opacity", "0");
+          $(".cont-ntr").addClass("ms-close").removeClass("ms-open");
+          $(".cont-gg").addClass("ms-close").removeClass("ms-open");
           setTimeout(() => {
-            updTrans(".cont-isr", "ms-open");
+            $(".cont-isr").removeClass("ms-close").addClass("ms-open");
       
             let solved = false;
             
@@ -112,6 +108,7 @@
       
             const audio = new Audio("ticking.mp3");
             audio.play();
+            audio.loop = true;
       
             const intervalUpdateMS = 10;
             const interval = setInterval(() => {
@@ -180,10 +177,10 @@
       // TODO: uncomment below line
       //history.pushState({ running: false }, "", "/");
 
-      $(".cont-isr").css("opacity", "0");
-      updTrans(".cont-gg", "op-close");
+      $(".cont-isr").addClass("ms-close").removeClass("ms-open");
+      $(".cont-gg").addClass("ms-close").removeClass("ms-open");
       setTimeout(() => {
-        updTrans(".cont-ntr", "op-open");
+        $(".cont-ntr").removeClass("ms-close").addClass("ms-open");
   
         let clicked = false;
         $(".go").on("click", () => {
@@ -205,7 +202,7 @@
           else $(".go").removeClass("avail");
         });
         $(".time-inp").on("keypress", (e) => {
-          if ((e.which < 49 || e.which > 59) && (e.which !== 46)) {
+          if ((e.which < 48 || e.which > 58) && (e.which !== 46)) {
             e.preventDefault();
           }
         })
