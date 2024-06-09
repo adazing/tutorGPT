@@ -45,3 +45,5 @@ env/Scripts/activate
 cd tutorGPT
 python manage.py runserver
 ```
+
+```git``` and ```python``` must be pre-installed.
