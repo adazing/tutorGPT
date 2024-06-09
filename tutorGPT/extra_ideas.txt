@@ -8,4 +8,4 @@ add question to a batch
 explain answers?
 not just multiple choice
     fill in the blank? short answer? specify how much of each type of question?
-timer, rewards, reactions when they get something write
+timer, rewards, reactions when they get something right
