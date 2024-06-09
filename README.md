@@ -2,7 +2,7 @@
   
 # 
 
-<img src="https://raw.githubusercontent.com/adazing/tutorGPT/main/tutorGPT/project/static/tutorGPT/logo-unlabeled-untransparent.png" height="400px" />
+<img src="https://raw.githubusercontent.com/adazing/tutorGPT/main/tutorGPT/project/static/tutorGPT/logo-unlabeled-untransparent.png" height="256px" />
 
 # Tutor.GPT
 
