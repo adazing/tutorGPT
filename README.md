@@ -8,7 +8,7 @@
 
 [![License](https://img.shields.io/packagist/l/adazing/tutorGPTy)](https://packagist.org/packages/adazing/tutorGPT)
 
-TutorGPT is a AI-powered study tool that converts your class notes into multiple-choice practice questions.
+**TutorGPT** is a AI-powered study tool that converts your class notes into multiple-choice practice questions.
 
 </div>
 
@@ -36,7 +36,7 @@ Inferfaces used:
 #
 
 
-To host TutorGPT, run the following commands...
+To host **TutorGPT**, run the following commands...
 
 Windows:
 ```
