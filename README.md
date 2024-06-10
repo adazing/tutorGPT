@@ -7,7 +7,7 @@
 # TutorGPT
 An AI-powered study tool that converts your class notes into multiple-choice practice questions.
 
-[![License](https://img.shields.io/packagist/l/adazing/tutorGPTy)](https://packagist.org/packages/adazing/tutorGPT)
+[![License: WTFPL](https://img.shields.io/badge/License-WTFPL-brightgreen.svg)](http://www.wtfpl.net/about/)
 
   <div align="center">
     <img src="https://skillicons.dev/icons?i=django" height="40" alt="django logo"  />
